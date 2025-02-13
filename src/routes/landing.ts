@@ -1,7 +1,4 @@
-import { serve } from "bun";
 import { Hono } from "hono";
-import { cors } from "hono/cors";
-import { showRoutes } from "hono/dev";
 
 const landing = new Hono();
 

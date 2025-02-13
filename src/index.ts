@@ -5,6 +5,8 @@ import { showRoutes } from "hono/dev";
 import landing from "./routes/landing";
 import booksRoute from "./routes/booksRoute";
 import auth from "./routes/authentication";
+import user from "./routes/user";
+import { verifyToken } from "./middleware/jwt";
 
 const app = new Hono().basePath("/api");
 
@@ -23,9 +25,15 @@ app.use(
 app.route("/", landing);
 app.route("/auth", auth);
 
+// protect route with middleware
+app.use("/user/*", verifyToken);
+// app.use("/books/*", verifyToken);
+
+// protected routes
+app.route("/user", user);
 app.route("/books", booksRoute);
 
-showRoutes(app);
+showRoutes(app, { colorize: true });
 
 const port = 8080;
 console.log(`Server is running on http://localhost:${port}/api`);
